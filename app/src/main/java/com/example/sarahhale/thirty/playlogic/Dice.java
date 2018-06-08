@@ -3,7 +3,7 @@ package com.example.sarahhale.thirty.playlogic;
 import java.util.ArrayList;
 
 
-class Dice {
+public class Dice {
     private ArrayList<Die> dice = new ArrayList();
 
     public Dice (int nrOfDice){

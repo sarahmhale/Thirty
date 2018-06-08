@@ -2,7 +2,7 @@ package com.example.sarahhale.thirty.playlogic;
 
 import java.util.Random;
 
-class Die {
+public class Die {
     private boolean active = true;
     private int value;
     private Random random = new Random();

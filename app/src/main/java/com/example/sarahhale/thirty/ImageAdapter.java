@@ -1,5 +1,5 @@
 package com.example.sarahhale.thirty;
-
+import com.example.sarahhale.thirty.playlogic.*;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,25 +10,33 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<Integer> dice;
+    private Dice dice;
 
-    // references to our images
-    private Integer[] mThumbIds = {
+    // references to our active images
+    private Integer[] activeImages = {
             R.drawable.white1, R.drawable.white2,
             R.drawable.white3, R.drawable.white4,
             R.drawable.white5, R.drawable.white6
     };
 
-    public ImageAdapter(Context c, ArrayList<Integer> dice) {
+    // references to our inactive images
+    private Integer[] inActiveImages = {
+            R.drawable.grey1, R.drawable.grey2,
+            R.drawable.grey3, R.drawable.grey4,
+            R.drawable.grey5, R.drawable.grey6
+    };
+
+    public ImageAdapter(Context c, Dice dice) {
         mContext = c;
-        for (int i = 0; i <dice.size(); i++){
-            mThumbIds[i] = setImage(dice.get(i));
-        }
+        this.dice = dice;
+      /*  for (int i = 0; i <dice.size(); i++){
+            activeImages[i] = setImage(dice.get(i).getValue(),dice.get(i).isActive());
+        }*/
     }
 
 
     public int getCount() {
-        return mThumbIds.length;
+        return activeImages.length;
     }
 
     public Object getItem(int position) {
@@ -45,36 +53,42 @@ public class ImageAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(90, 90));
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(140, 140));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {
             imageView = (ImageView) convertView;
         }
-
-        imageView.setImageResource(mThumbIds[position]);
+        System.out.println(position);
+        imageView.setImageResource(setImage(dice.getDice().get(position).getValue(),dice.getDice().get(position).isActive() ));
         return imageView;
     }
 
-    public int setImage (int number) {
+    public int setImage (int number,boolean active) {
         switch (number) {
             case 1:
-                return R.drawable.white1;
+                if(active) return R.drawable.white1;
+                return  R.drawable.grey1;
 
             case 2:
-                return R.drawable.white2;
+                if(active) return R.drawable.white2;
+                return  R.drawable.grey2;
 
             case 3:
-                return R.drawable.white3;
+                if(active) return R.drawable.white3;
+                return  R.drawable.grey3;
 
             case 4:
-                return R.drawable.white4;
+                if(active) return R.drawable.white4;
+                return  R.drawable.grey4;
 
             case 5:
-                return R.drawable.white5;
+                if(active) return R.drawable.white5;
+                return  R.drawable.grey5;
 
             case 6:
-                return R.drawable.white6;
+                if(active) return R.drawable.white6;
+                return  R.drawable.grey6;
 
             default:
                 return  R.drawable.white6;

@@ -8,18 +8,18 @@
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:text="Score: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="112dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <Button
         android:id="@+id/restart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="restart"
+        android:layout_alignParentBottom="true"
         android:text="Restart"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="447dp" />

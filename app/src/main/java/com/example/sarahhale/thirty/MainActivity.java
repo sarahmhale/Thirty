@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 
@@ -25,12 +27,16 @@ public class MainActivity extends AppCompatActivity {
     Counter counter;
     Score score;
     Spinner spinner;
+    ArrayAdapter<String> dataAdapter;
+
+    private final int ROUNDS = 10;
+    private final int THROWS = 2;
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        counter = new Counter(10,3);
+        counter = new Counter(ROUNDS,THROWS);
         dice = new Dice(6);
         score = new Score();
         gridView = (GridView) findViewById(R.id.gridview);
@@ -38,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         newRoundButton= findViewById(R.id.newRoundButton);
         newRoundButton.setVisibility(View.GONE);
         imageAdapter =new ImageAdapter(this,dice);
+        spinner = (Spinner) findViewById(R.id.spinner);
 
+        setScoreAdapter();
         gridView.setAdapter(imageAdapter);
 
         /**
@@ -66,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void setScoreAdapter(){
+        dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, score.getScoreAlternatives());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+    }
+
     public void addThrow(View view){
         counter.addThrow();
         TextView currentThrowsText = findViewById(R.id.current_throws);
@@ -74,18 +90,33 @@ public class MainActivity extends AppCompatActivity {
         int currentThrows = counter.getThrows();
         int currentRounds =counter.getRounds();
 
-        currentRoundsText.setText("Rounds "+currentRounds+"/10");
-        currentThrowsText.setText("Throws "+ currentThrows+"/3");
+        currentRoundsText.setText("Rounds "+currentRounds+"/"+ROUNDS);
+        currentThrowsText.setText("Throws "+ currentThrows+"/"+THROWS);
+    }
+
+    public void updateScore (String target){
+        ArrayList<Integer> diceValues = new ArrayList();
+
+        for (Die die : dice.getDice()){
+            diceValues.add(die.getValue());
+        }
+        if(target == "low"){
+            score.addToTotalScore(score.low(diceValues));
+        }else{
+            score.addToTotalScore(score.findBestCombinations(diceValues,target));
+        }
     }
 
     public void newRound(View view){
         counter.addRound();
+        updateScore(spinner.getSelectedItem().toString());
+        setScoreAdapter();
 
         if(counter.isGameFinished()){
             Intent intent = new Intent(this,ResultActivity.class);
-            intent.putExtra("Score", score.totalScore());
+            intent.putExtra("SCORE", score.totalScore());
             startActivity(intent);
-            System.out.println("game is finished show result");
+
         }else {
             addThrow(view);
             dice.setAllToActive();

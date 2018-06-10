@@ -21,9 +21,10 @@ public class Score {
         scoreAlternatives = list.toArray(new String[0]);
     }
 
-    public int findBestCombinations(ArrayList<Integer> diceValues, Integer target) {
+    public int findBestCombinations(ArrayList<Integer> diceValues, String value) {
 
-        removeScoreAlternative(target.toString());
+        removeScoreAlternative(value);
+        int target = Integer.parseInt(value);
 
         Collections.sort(diceValues);
         int result = 0;

@@ -13,7 +13,7 @@ public class ScoreTest {
     public void oneValueShouldResultInThatScore() {
         ArrayList<Integer> diceValues = new ArrayList();
         diceValues.add(3);
-        int result = score.findBestCombinations(diceValues, 3);
+        int result = score.findBestCombinations(diceValues, "3");
         assertEquals(3, result);
     }
 
@@ -22,7 +22,7 @@ public class ScoreTest {
         ArrayList<Integer> diceValues = new ArrayList();
         diceValues.add(3);
         diceValues.add(3);
-        int result = score.findBestCombinations(diceValues, 6);
+        int result = score.findBestCombinations(diceValues, "6");
         assertEquals(6, result);
     }
 
@@ -32,7 +32,7 @@ public class ScoreTest {
         diceValues.add(4);
         diceValues.add(3);
         diceValues.add(1);
-        int result = score.findBestCombinations(diceValues, 4);
+        int result = score.findBestCombinations(diceValues, "4");
         assertEquals(8, result);
     }
 
@@ -42,7 +42,7 @@ public class ScoreTest {
         diceValues.add(4);
         diceValues.add(3);
         diceValues.add(1);
-        int result = score.findBestCombinations(diceValues, 8);
+        int result = score.findBestCombinations(diceValues, "8");
         assertEquals(8, result);
     }
 
@@ -52,7 +52,7 @@ public class ScoreTest {
         diceValues.add(1);
         diceValues.add(1);
         diceValues.add(1);
-        int result = score.findBestCombinations(diceValues, 2);
+        int result = score.findBestCombinations(diceValues, "2");
         assertEquals(2, result);
     }
 
@@ -65,7 +65,7 @@ public class ScoreTest {
         diceValues.add(2);
         diceValues.add(2);
         diceValues.add(2);
-        int result = score.findBestCombinations(diceValues, 4);
+        int result = score.findBestCombinations(diceValues, "4");
         assertEquals(12, result);
     }
 
@@ -75,7 +75,7 @@ public class ScoreTest {
         diceValues.add(1);
         diceValues.add(5);
         diceValues.add(4);
-        int result = score.findBestCombinations(diceValues, 10);
+        int result = score.findBestCombinations(diceValues, "10");
         assertEquals(10, result);
     }
 
@@ -88,7 +88,7 @@ public class ScoreTest {
         diceValues.add(2);
         diceValues.add(2);
         diceValues.add(1);
-        int result = score.findBestCombinations(diceValues, 12);
+        int result = score.findBestCombinations(diceValues, "12");
         assertEquals(12, result);
     }
 
@@ -185,7 +185,7 @@ public class ScoreTest {
         diceValues.add(2);
         diceValues.add(2);
         diceValues.add(1);
-        score.findBestCombinations(diceValues,4);
+        score.findBestCombinations(diceValues,"4");
         String[] testAlternatives = new String[]{"low","5","6","7","8","9","10","11","12"};
         String[] scoreAlternatives = score.getScoreAlternatives();
 
@@ -218,7 +218,7 @@ public class ScoreTest {
         ArrayList<Integer> diceValues = new ArrayList();
         diceValues.add(6);
         diceValues.add(6);
-        score.findBestCombinations(diceValues,4);
+        score.findBestCombinations(diceValues,"4");
         score.reset();
 
         String[] testAlternatives = new String[]{"low","4","5","6","7","8","9","10","11","12"};

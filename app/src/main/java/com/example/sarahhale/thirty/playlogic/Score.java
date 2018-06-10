@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-class Score {
+public class Score {
 
     private int totalScore;
 

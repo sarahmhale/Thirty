@@ -48,7 +48,7 @@ public class CounterTest {
         counter1.addThrow();
         counter1.addThrow();
 
-        assertEquals(1,counter1.getThrows());
+        assertEquals(0,counter1.getThrows());
         assertEquals(1,counter1.getRounds());
 
     }
@@ -71,6 +71,7 @@ public class CounterTest {
 
         counter1.addRound();
         counter1.addRound();
+        counter1.isItANewRound();
 
         assertTrue(counter1.isGameFinished());
     }

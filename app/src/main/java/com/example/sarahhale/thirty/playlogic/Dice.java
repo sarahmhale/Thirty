@@ -31,5 +31,11 @@ public class Dice {
         dice.get(position).setActive();
     }
 
+    public void setAllToActive() {
+        for (Die die : dice){
+            die.setActive();
+        }
+    }
+
     //TODO: setAllDiceToActive
 }

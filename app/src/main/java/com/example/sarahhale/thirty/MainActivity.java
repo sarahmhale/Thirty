@@ -1,5 +1,7 @@
 package com.example.sarahhale.thirty;
 import com.example.sarahhale.thirty.playlogic.*;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,14 +11,17 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 
 public class MainActivity extends AppCompatActivity {
     private Dice dice;
     GridView gridView;
     Button rollButton;
+    Button newRoundButton;
     ImageAdapter imageAdapter;
     Counter counter;
-
+    Score score;
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
         counter = new Counter(10,3);
         dice = new Dice(6);
+        score = new Score();
         gridView = (GridView) findViewById(R.id.gridview);
         rollButton = (Button) findViewById(R.id.rollButton);
+        newRoundButton= findViewById(R.id.newRoundButton);
+        newRoundButton.setVisibility(View.GONE);
         imageAdapter =new ImageAdapter(this,dice);
 
-        // Instance of ImageAdapter Class
         gridView.setAdapter(imageAdapter);
 
         /**
@@ -68,12 +75,29 @@ public class MainActivity extends AppCompatActivity {
         currentThrowsText.setText("Throws "+ currentThrows+"/3");
     }
 
-    public void rollDice(View view){
-       addThrow(view);
+    public void newRound(View view){
+        counter.addRound();
 
         if(counter.isGameFinished()){
-            //TODO:show result activity
-            System.out.println("game is finished");
+            Intent intent = new Intent(this,ResultActivity.class);
+            intent.putExtra("Score", score.totalScore());
+            startActivity(intent);
+            System.out.println("game is finished show result");
+        }else {
+            addThrow(view);
+            dice.setAllToActive();
+            imageAdapter.notifyDataSetChanged();
+            rollButton.setVisibility(View.VISIBLE);
+            newRoundButton.setVisibility(View.GONE);
+        }
+    }
+
+    public void rollDice(View view){
+        addThrow(view);
+
+        if(counter.isItANewRound()){
+            rollButton.setVisibility(View.GONE);
+            newRoundButton.setVisibility(View.VISIBLE);
         }
 
         dice.rollAllDice();

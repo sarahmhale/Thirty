@@ -55,9 +55,23 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toTopOf="@+id/gridview" />
 
+    <Button
+        android:id="@+id/newRoundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/gridview"
+        android:layout_marginBottom="76dp"
+        android:onClick="newRound"
+        android:text="new round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="@+id/gridview" />
+
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rollButton"
         android:layout_alignEnd="@+id/gridview" />

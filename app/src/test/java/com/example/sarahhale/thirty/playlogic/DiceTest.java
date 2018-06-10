@@ -89,7 +89,31 @@ public class DiceTest {
             dice.rollAllDice();
             dieValues.add(dice.getDice().get(1).getValue());
         }
-        System.out.println(dieValues);
+
         assertTrue(dieValues.size() > 1);
+    }
+
+    @Test
+    public void shouldSetAllDiceToActive (){
+
+        ArrayList<Die> result1 = dice.getDice();
+        ArrayList<Integer> values1 = new ArrayList<>();
+
+        for (Die die: result1){
+            values1.add(die.getValue());
+        }
+
+        dice.setDieToInactive(1);
+
+        dice.setAllToActive();
+
+        Set<Integer> dieValues = new HashSet();
+
+        for (int i = 0; i < 6; i++){
+            dice.rollAllDice();
+            dieValues.add(dice.getDice().get(1).getValue());
+        }
+        assertTrue(dieValues.size() > 1);
+
     }
 }

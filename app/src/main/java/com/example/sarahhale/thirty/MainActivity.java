@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     ImageAdapter imageAdapter;
     Counter counter;
     Score score;
+    Spinner spinner;
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

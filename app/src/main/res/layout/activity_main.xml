@@ -13,32 +13,30 @@
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="20dp"
         android:columnWidth="90dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
-        android:numColumns="auto_fit"
+        android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
-
-    <TextView
-        android:id="@+id/current_rounds"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/gridview"
-        android:layout_marginBottom="142dp"
-        android:text="Rounds: 0/10"
-        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/current_throws"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/gridview"
         android:layout_marginBottom="185dp"
         android:text="Throws: 0/3"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/current_rounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="142dp"
+        android:text="Rounds: 0/10"
         android:textSize="24dp" />
 
     <Button
@@ -47,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/gridview"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="51dp"
+        android:layout_marginTop="75dp"
         android:onClick="rollDice"
         android:text="Roll"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,11 +58,11 @@
         android:id="@+id/newRoundButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/gridview"
-        android:layout_marginBottom="76dp"
+  android:layout_alignTop="@id/current_rounds"
+        android:layout_marginTop="75dp"
         android:onClick="newRound"
         android:text="new round"
+        android:layout_marginBottom="51dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -71,10 +70,10 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="160dp"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/rollButton"
-        android:layout_alignEnd="@+id/gridview" />
+        android:layout_alignEnd="@+id/gridview"
+        android:layout_alignTop="@+id/current_throws" />
 
 
 </RelativeLayout>

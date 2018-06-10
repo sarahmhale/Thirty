@@ -3,14 +3,27 @@ package com.example.sarahhale.thirty.playlogic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 
 public class Score {
-
+    private final String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
     private int totalScore;
+    private String[] scoreAlternatives;
 
+    public Score(){
+        scoreAlternatives = SCORE_ALTERNATIVES;
+    }
+    public void removeScoreAlternative(String value){
 
-    public int findBestCombinations(ArrayList<Integer> diceValues, int target) {
+        List<String> list = new ArrayList<String>(Arrays.asList(scoreAlternatives));
+        list.remove(value);
+        scoreAlternatives = list.toArray(new String[0]);
+    }
+
+    public int findBestCombinations(ArrayList<Integer> diceValues, Integer target) {
+
+        removeScoreAlternative(target.toString());
 
         Collections.sort(diceValues);
         int result = 0;
@@ -50,10 +63,13 @@ public class Score {
     }
 
     public void reset() {
+        scoreAlternatives = SCORE_ALTERNATIVES;
         totalScore= 0;
     }
 
     public int low(ArrayList<Integer> diceValues) {
+
+        removeScoreAlternative("low");
 
         Collections.sort(diceValues);
         int result = 0;
@@ -66,5 +82,9 @@ public class Score {
 
         }
         return result;
+    }
+
+    public String[] getScoreAlternatives() {
+        return scoreAlternatives;
     }
 }

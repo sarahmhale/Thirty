@@ -30,4 +30,6 @@ public class Dice {
     public void setActive(int position) {
         dice.get(position).setActive();
     }
+
+    //TODO: setAllDiceToActive
 }

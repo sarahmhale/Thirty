@@ -1,19 +1,41 @@
 package com.example.sarahhale.thirty.playlogic;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 
-public class Score {
-    private final String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
+public class Score implements Parcelable{
+    private String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
     private int totalScore;
     private String[] scoreAlternatives;
 
     public Score(){
         scoreAlternatives = SCORE_ALTERNATIVES;
     }
+
+    protected Score(Parcel in) {
+        SCORE_ALTERNATIVES = in.createStringArray();
+        totalScore = in.readInt();
+        scoreAlternatives = in.createStringArray();
+    }
+
+    public static final Creator<Score> CREATOR = new Creator<Score>() {
+        @Override
+        public Score createFromParcel(Parcel in) {
+            return new Score(in);
+        }
+
+        @Override
+        public Score[] newArray(int size) {
+            return new Score[size];
+        }
+    };
+
     public void removeScoreAlternative(String value){
 
         List<String> list = new ArrayList<String>(Arrays.asList(scoreAlternatives));
@@ -87,5 +109,17 @@ public class Score {
 
     public String[] getScoreAlternatives() {
         return scoreAlternatives;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(SCORE_ALTERNATIVES);
+        parcel.writeInt(totalScore);
+        parcel.writeStringArray(scoreAlternatives);
     }
 }

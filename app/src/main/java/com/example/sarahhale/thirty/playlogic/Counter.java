@@ -1,6 +1,9 @@
 package com.example.sarahhale.thirty.playlogic;
 
-public class Counter {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Counter implements Parcelable{
     private int totalThrows;
     private int totalRounds;
     private int currentRounds;
@@ -12,6 +15,28 @@ public class Counter {
         this.totalRounds= totalRounds;
         this.totalThrows=totalThrows;
     }
+
+    protected Counter(Parcel in) {
+        totalThrows = in.readInt();
+        totalRounds = in.readInt();
+        currentRounds = in.readInt();
+        currentThrows = in.readInt();
+        gameFinished = in.readByte() != 0;
+        newRound = in.readByte() != 0;
+    }
+
+    public static final Creator<Counter> CREATOR = new Creator<Counter>() {
+        @Override
+        public Counter createFromParcel(Parcel in) {
+            return new Counter(in);
+        }
+
+        @Override
+        public Counter[] newArray(int size) {
+            return new Counter[size];
+        }
+    };
+
     public int getRounds() {
         return currentRounds;
     }
@@ -47,5 +72,20 @@ public class Counter {
 
     public boolean isItANewRound() {
         return newRound;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(totalThrows);
+        parcel.writeInt(totalRounds);
+        parcel.writeInt(currentRounds);
+        parcel.writeInt(currentThrows);
+        parcel.writeByte((byte) (gameFinished ? 1 : 0));
+        parcel.writeByte((byte) (newRound ? 1 : 0));
     }
 }

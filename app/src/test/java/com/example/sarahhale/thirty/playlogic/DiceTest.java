@@ -116,4 +116,10 @@ public class DiceTest {
         assertTrue(dieValues.size() > 1);
 
     }
+
+    @Test
+    public void shouldReturnArrayListWithValuesOfDice(){
+        ArrayList<Integer> diceValue = dice.getDiceValues();
+        assertEquals(6, diceValue.size());
+    }
 }

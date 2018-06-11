@@ -2,6 +2,7 @@ package com.example.sarahhale.thirty;
 import com.example.sarahhale.thirty.playlogic.*;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int ROUNDS = 10;
     private final int THROWS = 2;
+
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +44,15 @@ public class MainActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         rollButton = (Button) findViewById(R.id.rollButton);
         newRoundButton= findViewById(R.id.newRoundButton);
-        newRoundButton.setVisibility(View.GONE);
-        imageAdapter =new ImageAdapter(this,dice);
         spinner = (Spinner) findViewById(R.id.spinner);
-
+        newRoundButton.setVisibility(View.GONE);
         setScoreAdapter();
+        renderDice();
+
+    }
+
+    public void renderDice (){
+        imageAdapter =new ImageAdapter(this,dice);
         gridView.setAdapter(imageAdapter);
 
         /**
@@ -74,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("SCORE", score);
+        outState.putParcelable("DICE", dice);
+        outState.putParcelable("COUNTER", counter);
+    }
+
     public void setScoreAdapter(){
         dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, score.getScoreAlternatives());
@@ -95,29 +109,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateScore (String target){
-        ArrayList<Integer> diceValues = new ArrayList();
 
-        for (Die die : dice.getDice()){
-            diceValues.add(die.getValue());
-        }
         if(target == "low"){
-            score.addToTotalScore(score.low(diceValues));
+            score.addToTotalScore(score.low(dice.getDiceValues()));
         }else{
-            score.addToTotalScore(score.findBestCombinations(diceValues,target));
+            score.addToTotalScore(score.findBestCombinations(dice.getDiceValues(),target));
         }
     }
 
+    public void startResultActivity(){
+        Intent intent = new Intent(this,ResultActivity.class);
+        intent.putExtra("SCORE", score.totalScore());
+        startActivity(intent);
+
+    }
+
     public void newRound(View view){
+        dice.rollAllDice();
         counter.addRound();
         updateScore(spinner.getSelectedItem().toString());
         setScoreAdapter();
 
-        if(counter.isGameFinished()){
-            Intent intent = new Intent(this,ResultActivity.class);
-            intent.putExtra("SCORE", score.totalScore());
-            startActivity(intent);
-
-        }else {
+        if(counter.isGameFinished()){ startResultActivity(); }
+        else {
             addThrow(view);
             dice.setAllToActive();
             imageAdapter.notifyDataSetChanged();

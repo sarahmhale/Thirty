@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private Dice dice;
@@ -18,7 +16,6 @@ public class ImageAdapter extends BaseAdapter {
         this.dice = dice;
 
     }
-
 
     public int getCount() {
         return 6;

@@ -9,8 +9,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ResultActivity extends AppCompatActivity {
     private ArrayList<String> scorePerRounds;
@@ -19,15 +17,20 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-
         Intent intent = getIntent();
         scorePerRounds = intent.getStringArrayListExtra("SCORE_PER_ROUNDS");
 
+        renderTotalScore( intent.getIntExtra("SCORE",0));
+        populateScorePerRounds();
 
+    }
+
+    private void renderTotalScore(int score) {
         TextView textView = findViewById(R.id.totalScore);
-        textView.setText("Total score: " + intent.getIntExtra("SCORE",0));
-        
+        textView.setText("Total score: " +score);
+    }
 
+    private void populateScorePerRounds() {
         ListView list = (ListView) findViewById(R.id.scorePerRound);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -36,13 +39,7 @@ public class ResultActivity extends AppCompatActivity {
                 scorePerRounds );
 
         list.setAdapter(arrayAdapter);
-
     }
-
-  /*  private void populateListView(HashMap scorePerRounds) {
-
-    }*/
-
 
     public void restart (View view){
         Intent intent = new Intent(this,MainActivity.class);

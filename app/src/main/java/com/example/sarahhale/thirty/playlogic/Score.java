@@ -41,8 +41,7 @@ public class Score implements Parcelable{
     };
 
     public void removeScoreAlternative(String value){
-
-        List<String> list = new ArrayList<String>(Arrays.asList(scoreAlternatives));
+        List<String> list = new ArrayList(Arrays.asList(scoreAlternatives));
         list.remove(value);
         scoreAlternatives = list.toArray(new String[0]);
     }
@@ -84,10 +83,7 @@ public class Score implements Parcelable{
         return totalScore;
     }
 
-    public void addToTotalScore(int score) {
-        totalScore += score;
-
-    }
+    public void addToTotalScore(int score) { totalScore += score; }
 
     public void reset() {
         scoreAlternatives = SCORE_ALTERNATIVES;
@@ -97,8 +93,8 @@ public class Score implements Parcelable{
     public int low(ArrayList<Integer> diceValues) {
 
         removeScoreAlternative("low");
-
         Collections.sort(diceValues);
+
         int result = 0;
         for (int i : diceValues){
            if(i > 3){
@@ -106,8 +102,8 @@ public class Score implements Parcelable{
            }else{
                result += i;
            }
-
         }
+
         return result;
     }
 
@@ -128,11 +124,8 @@ public class Score implements Parcelable{
     }
 
     public void setTheScoreForRound(String key, Integer score) {
-        scoreForEachRound.add(key+": "+score.toString());
+        scoreForEachRound.add(key+": "+score.toString()+ "p");
     }
 
-    public ArrayList<String> getScoreForRounds() {
-
-        return scoreForEachRound;
-    }
+    public ArrayList<String> getScoreForRounds() { return scoreForEachRound; }
 }

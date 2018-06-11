@@ -236,7 +236,7 @@ public class ScoreTest {
     public void shouldSetTheScoreChoice (){
         score.setTheScoreForRound("low", 20);
         ArrayList<String> result = new ArrayList();
-        result.add("low: 20");
+        result.add("low: 20p");
 
         assertEquals(result.get(0), score.getScoreForRounds().get(0));
     }

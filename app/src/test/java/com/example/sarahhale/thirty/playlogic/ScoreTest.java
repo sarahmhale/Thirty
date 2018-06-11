@@ -3,6 +3,8 @@ package com.example.sarahhale.thirty.playlogic;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 public class ScoreTest {
@@ -228,6 +230,15 @@ public class ScoreTest {
         for(int i = 0; i < testAlternatives.length; i++){
             assertEquals(scoreAlternatives[i],testAlternatives[i]);
         }
+    }
+
+    @Test
+    public void shouldSetTheScoreChoice (){
+        score.setTheScoreForRound("low", 20);
+        ArrayList<String> result = new ArrayList();
+        result.add("low: 20");
+
+        assertEquals(result.get(0), score.getScoreForRounds().get(0));
     }
 
 }

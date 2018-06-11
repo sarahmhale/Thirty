@@ -6,13 +6,17 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Score implements Parcelable{
     private String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
     private int totalScore;
     private String[] scoreAlternatives;
+    ArrayList<String> scoreForEachRound = new ArrayList<>();
+
 
     public Score(){
         scoreAlternatives = SCORE_ALTERNATIVES;
@@ -121,5 +125,14 @@ public class Score implements Parcelable{
         parcel.writeStringArray(SCORE_ALTERNATIVES);
         parcel.writeInt(totalScore);
         parcel.writeStringArray(scoreAlternatives);
+    }
+
+    public void setTheScoreForRound(String key, Integer score) {
+        scoreForEachRound.add(key+": "+score.toString());
+    }
+
+    public ArrayList<String> getScoreForRounds() {
+
+        return scoreForEachRound;
     }
 }

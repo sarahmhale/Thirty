@@ -13,16 +13,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private Dice dice;
-    GridView gridView;
-    Button rollButton;
-    Button newRoundButton;
-    ImageAdapter imageAdapter;
-    Counter counter;
-    Score score;
-    Spinner spinner;
-    ArrayAdapter<String> dataAdapter;
+    private GridView gridView;
+    private Button rollButton;
+    private Button newRoundButton;
+    private ImageAdapter imageAdapter;
+    private Counter counter;
+    private Score score;
+    private Spinner spinner;
 
     private final int ROUNDS = 10;
     private final int THROWS = 2;
@@ -39,13 +40,14 @@ public class MainActivity extends AppCompatActivity {
         }else{
             restoreFromState(savedInstanceState);
         }
+
         renderScore();
         renderDice();
         setThrowText();
         setRoundText();
     }
 
-    public void restoreFromState(Bundle savedInstanceState){
+    private void restoreFromState(Bundle savedInstanceState){
         dice = savedInstanceState.getParcelable(DICE);
         score= savedInstanceState.getParcelable(SCORE);
         counter = savedInstanceState.getParcelable(COUNTER);
@@ -60,28 +62,28 @@ public class MainActivity extends AppCompatActivity {
         outState.putParcelable(COUNTER, counter);
     }
 
-    public void setUpNewVariables(){
+    private void setUpNewVariables(){
         counter = new Counter(ROUNDS,THROWS);
         dice = new Dice(6);
         score = new Score();
         findAllComponents();
     }
 
-    public void findAllComponents(){
-        gridView = (GridView) findViewById(R.id.gridview);
-        rollButton = (Button) findViewById(R.id.rollButton);
+    private void findAllComponents(){
+        gridView = findViewById(R.id.gridview);
+        rollButton = findViewById(R.id.rollButton);
         newRoundButton= findViewById(R.id.newRoundButton);
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
         newRoundButton.setVisibility(View.GONE);
     }
 
-    public void renderDice (){
+    private void renderDice (){
         imageAdapter =new ImageAdapter(this,dice);
         gridView.setAdapter(imageAdapter);
 
-        /**
-         * Change image after image being clicked.
-         * */
+        /*
+          Change image after image being clicked.
+          */
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
                                     int position, long id) {
 
                 if(dice.getDice().get(position).isActive()){
-                    dice.getDice().get(position).setInactive();
+                    dice.getDice().get(position).setActive(false);
                 }else{
-                    dice.getDice().get(position).setActive();
+                    dice.getDice().get(position).setActive(true);
                 }
                 ((ImageView) v).setImageResource(
                         ImageAdapter.setImage(
@@ -104,43 +106,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void renderScore(){
-        dataAdapter = new ArrayAdapter<String>(this,
+    private void renderScore(){
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, score.getScoreAlternatives());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
 
     }
 
-    public void setThrowText(){
+    private void setThrowText(){
         TextView currentThrowsText = findViewById(R.id.current_throws);
         int currentThrows = counter.getThrows();
         currentThrowsText.setText("Throws "+ currentThrows+"/"+THROWS);
     }
 
-    public void setRoundText(){
+    private void setRoundText(){
         TextView currentRoundsText = findViewById(R.id.current_rounds);
         int currentRounds =counter.getRounds();
         currentRoundsText.setText("Rounds "+currentRounds+"/"+ROUNDS);
     }
 
-    public void updateScore (String target){
-        int result = 0;
-        if(target == "low"){
-            result= score.low(dice.getDiceValues());
+    private void updateScore (String target){
+        int result;
+        if(target.equals("low")){
+            result= score.low(dice.getDice());
 
         }else{
-            result= score.findBestCombinations(dice.getDiceValues(),target);
+            result = score.findBestCombinations(dice.getDice(),target);
         }
         score.addToTotalScore(result);
         score.setTheScoreForRound(target,result);
         renderScore();
     }
 
-    public void startResultActivity(){
+    private void startResultActivity(){
         Intent intent = new Intent(this,ResultActivity.class);
-        intent.putExtra(SCORE, score.totalScore());
-        intent.putStringArrayListExtra("SCORE_PER_ROUNDS", score.getScoreForRounds());
+        intent.putExtra(SCORE, score.getTotalScore());
+        intent.putStringArrayListExtra("SCORE_PER_ROUNDS",(ArrayList<String>) score.getScoreForRounds());
         startActivity(intent);
     }
 
@@ -150,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
         updateScore(spinner.getSelectedItem().toString());
 
         if(counter.isGameFinished()){
-            startResultActivity();
+
+           startResultActivity();
         }
         else {
             counter.addThrow();

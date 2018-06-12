@@ -31,17 +31,17 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void populateScorePerRounds() {
-        ListView list = (ListView) findViewById(R.id.scorePerRound);
+        ListView list = findViewById(R.id.scorePerRound);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                scorePerRounds );
+                scorePerRounds);
 
         list.setAdapter(arrayAdapter);
     }
 
-    public void restart (View view){
+    public void restart(View view){
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }

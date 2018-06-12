@@ -6,16 +6,15 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 
 public class Score implements Parcelable{
     private String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
     private int totalScore;
     private String[] scoreAlternatives;
-    ArrayList<String> scoreForEachRound = new ArrayList<>();
+    private final List<String> scoreForEachRound = new ArrayList<>();
 
 
     public Score(){
@@ -40,46 +39,62 @@ public class Score implements Parcelable{
         }
     };
 
-    public void removeScoreAlternative(String value){
-        List<String> list = new ArrayList(Arrays.asList(scoreAlternatives));
-        list.remove(value);
-        scoreAlternatives = list.toArray(new String[0]);
+    private void removeScoreAlternative(String value){
+        List<String> remainingScoreAlternatives = new ArrayList(Arrays.asList(scoreAlternatives));
+        remainingScoreAlternatives.remove(value);
+        scoreAlternatives = remainingScoreAlternatives.toArray(new String[0]);
     }
 
-    public int findBestCombinations(ArrayList<Integer> diceValues, String value) {
-
+    public int findBestCombinations(List<Die> diceValues, String value) {
         removeScoreAlternative(value);
         int target = Integer.parseInt(value);
 
         Collections.sort(diceValues);
-        int result = 0;
+        Collections.reverse(diceValues);
 
-        if(diceValues.size()>1){
+        List<Die> dice = new ArrayList(diceValues);
 
-            for(int i = 0; i< diceValues.size();i++){
-                if(diceValues.get(i)==target){
-                    result +=target;
-                    diceValues.remove(i);
-                }else{
-                    int sum = diceValues.get(i);
-                    for (int j = i+1; j<diceValues.size(); j++){
-                        sum += diceValues.get(j);
-                        if(sum == target) {
-                            result += target;
-                            diceValues.remove(j);
 
-                        }
-                    }
-                }
-            }
+        int result = sumUp(dice,target,target);
 
-        }else if(diceValues.get(0)== target){
-            return target;
-        }
-        return result;
+        return result*target;
     }
 
-    public int totalScore() {
+    private List<Die> removeReserved (List<Die> diceValues){
+        for (int i = 0; i< diceValues.size();i++){
+            if(diceValues.get(i).isReserved()){
+                diceValues.remove(i);
+            }
+        }
+        return diceValues;
+    }
+
+    private int sumUp(List<Die> diceValues, int target,int startTarget){
+        int count = 0;
+
+        for (int i = 0; i < diceValues.size(); i++) {
+            Die die =diceValues.get(i);
+
+            if(!die.isReserved()){
+                die.setReserved(true);
+
+                if (die.getValue() == target) {
+                    count++;
+                    diceValues = removeReserved(diceValues);
+                    count += sumUp(diceValues, startTarget,startTarget);
+                }else if (die.getValue() < target){
+                    target = target - die.getValue();
+                    count += sumUp(diceValues, target,startTarget);
+                }else {
+                    die.setReserved(false);
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public int getTotalScore() {
         return totalScore;
     }
 
@@ -90,18 +105,15 @@ public class Score implements Parcelable{
         totalScore= 0;
     }
 
-    public int low(ArrayList<Integer> diceValues) {
+    public int low(List<Die> diceValues) {
 
         removeScoreAlternative("low");
-        Collections.sort(diceValues);
 
         int result = 0;
-        for (int i : diceValues){
-           if(i > 3){
-               return result;
-           }else{
-               result += i;
-           }
+        for (Die die : diceValues){
+            if(die.getValue() <= 3){
+                result += die.getValue();
+            }
         }
 
         return result;
@@ -127,5 +139,5 @@ public class Score implements Parcelable{
         scoreForEachRound.add(key+": "+score.toString()+ "p");
     }
 
-    public ArrayList<String> getScoreForRounds() { return scoreForEachRound; }
+    public List<String> getScoreForRounds() { return scoreForEachRound; }
 }

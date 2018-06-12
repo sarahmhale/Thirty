@@ -6,9 +6,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
-    private Dice dice;
+class ImageAdapter extends BaseAdapter {
+    private final Context mContext;
+    private final Dice dice;
 
 
     public ImageAdapter(Context c, Dice dice) {
@@ -18,7 +18,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return 6;
+        return dice.getDice().size();
     }
 
     public Object getItem(int position) {

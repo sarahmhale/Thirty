@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static junit.framework.Assert.assertTrue;
@@ -11,18 +12,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class DiceTest {
-    Dice dice = new Dice(6);
+    private final Dice dice = new Dice(6);
 
     @Test
     public void shouldReturnAListWithSixDice (){
-        ArrayList<Die> allDice = dice.getDice();
+        List<Die> allDice = dice.getDice();
         assertEquals(6, allDice.size());
     }
 
     @Test
     public void theListShouldBeFilledWithDiceWithAValue (){
-        ArrayList<Die> allDice = dice.getDice();
-        ArrayList<Integer> diceValues = new ArrayList();
+        List<Die> allDice = dice.getDice();
+        List<Integer> diceValues = new ArrayList<>();
 
         for (Die die: allDice){
             diceValues.add(die.getValue());
@@ -33,16 +34,16 @@ public class DiceTest {
 
     @Test
     public void rollAllDice (){
-        ArrayList<Die> result1 = dice.getDice();
-        ArrayList<Integer> values1 = new ArrayList<>();
+        List<Die> result1 = dice.getDice();
+        List<Integer> values1 = new ArrayList<>();
 
         for (Die die: result1){
             values1.add(die.getValue());
         }
 
         dice.rollAllDice();
-        ArrayList<Die> result2 = dice.getDice();
-        ArrayList<Integer> values2 = new ArrayList<>();
+        List<Die> result2 = dice.getDice();
+        List<Integer> values2 = new ArrayList<>();
 
 
         for (Die die: result2){
@@ -55,8 +56,8 @@ public class DiceTest {
 
     @Test
     public void setDieToInactive (){
-        ArrayList<Die> result1 = dice.getDice();
-        ArrayList<Integer> values1 = new ArrayList<>();
+        List<Die> result1 = dice.getDice();
+        List<Integer> values1 = new ArrayList<>();
 
         for (Die die: result1){
             values1.add(die.getValue());
@@ -73,12 +74,6 @@ public class DiceTest {
 
     @Test
     public void afterBeingSetInActiveAndThenActiveAgainAllDiceShouldRoll(){
-        ArrayList<Die> result1 = dice.getDice();
-        ArrayList<Integer> values1 = new ArrayList<>();
-
-        for (Die die: result1){
-            values1.add(die.getValue());
-        }
 
         dice.setDieToInactive(1);
         dice.setActive(1);
@@ -96,13 +91,6 @@ public class DiceTest {
     @Test
     public void shouldSetAllDiceToActive (){
 
-        ArrayList<Die> result1 = dice.getDice();
-        ArrayList<Integer> values1 = new ArrayList<>();
-
-        for (Die die: result1){
-            values1.add(die.getValue());
-        }
-
         dice.setDieToInactive(1);
 
         dice.setAllToActive();
@@ -114,12 +102,11 @@ public class DiceTest {
             dieValues.add(dice.getDice().get(1).getValue());
         }
         assertTrue(dieValues.size() > 1);
-
     }
 
     @Test
     public void shouldReturnArrayListWithValuesOfDice(){
-        ArrayList<Integer> diceValue = dice.getDiceValues();
+        List<Die> diceValue = dice.getDice();
         assertEquals(6, diceValue.size());
     }
 }

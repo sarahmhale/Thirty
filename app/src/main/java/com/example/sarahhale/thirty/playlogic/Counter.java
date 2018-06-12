@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Counter implements Parcelable{
-    private int totalThrows;
-    private int totalRounds;
+    private final int totalThrows;
+    private final int totalRounds;
     private int currentRounds;
     private int currentThrows;
     private boolean gameFinished = false;
@@ -59,11 +59,10 @@ public class Counter implements Parcelable{
         if(currentThrows == totalThrows){
             newRound =true;
         }
-        else if( currentThrows > totalThrows){
+        else if(currentThrows > totalThrows){
             newRound= false;
             currentThrows = 0;
         }
-
     }
 
     public boolean isGameFinished() {

@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 public class DieTest {
-    Die die = new Die();
+    private final Die die = new Die();
 
     @Test
     public void rollDieShouldResultInRightRange() {
@@ -64,17 +64,18 @@ public class DieTest {
     @Test
     public void whenInactiveDieShouldNotRoll (){
         int result = die.roll();
-        die.setInactive();
+        die.setActive(false);
         int result2 = die.roll();
         assertTrue(result == result2);
 
     }
+
     @Test
     public void afterBeingSetFromInactiveToActiveDiceShouldRoll() {
         int result = die.roll();
-        die.setInactive();
+        die.setActive(false);
         int result2 = die.roll();
-        die.setActive();
+        die.setActive(true);
 
         Set<Integer> dieValues = new HashSet();
 
@@ -86,28 +87,27 @@ public class DieTest {
         assertTrue(dieValues.size() > 1);
 
     }
+
     @Test
     public void dieShouldBeActivePerDefault (){
         Die newDie = new Die();
         boolean active = newDie.isActive();
         assertTrue(active);
     }
-    @Test
-    public void shouldReturnInactiveIfInactive(){
-        Die newDie = new Die();
-        newDie.setInactive();
-        boolean active = newDie.isActive();
-        assertFalse(active);
 
+
+    @Test
+    public void dieShouldNotBeReservedPerDefault(){
+        Die newDie = new Die();
+        assertFalse( newDie.isReserved());
     }
 
     @Test
-    public void shouldReturnActiveIfActive(){
+    public void afterRollDiceShouldBeUnreserved(){
         Die newDie = new Die();
-        newDie.setInactive();
-        newDie.setActive();
-        boolean active = newDie.isActive();
-        assertTrue(active);
-
+        newDie.setReserved(true);
+        newDie.roll();
+        assertFalse( newDie.isReserved());
     }
+
 }

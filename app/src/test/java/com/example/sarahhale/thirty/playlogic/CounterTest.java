@@ -8,7 +8,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 
 public class CounterTest {
-    Counter counter = new Counter(3,5);
+    private final Counter counter = new Counter(3,5);
 
     @Test
     public void whenCreatedRoundsShouldBeZero(){
@@ -71,7 +71,6 @@ public class CounterTest {
 
         counter1.addRound();
         counter1.addRound();
-        counter1.isItANewRound();
 
         assertTrue(counter1.isGameFinished());
     }

@@ -51,11 +51,9 @@ public class Score implements Parcelable{
 
         Collections.sort(diceValues);
         Collections.reverse(diceValues);
-
         List<Die> dice = new ArrayList(diceValues);
 
-
-        int result = sumUp(dice,target,target);
+        int result = combinationCount(dice,target,target);
 
         return result*target;
     }
@@ -69,7 +67,11 @@ public class Score implements Parcelable{
         return diceValues;
     }
 
-    private int sumUp(List<Die> diceValues, int target,int startTarget){
+    /*
+    * Finds the best number of combinations that sum up to the target value.
+    * Each dice can be used once.
+    * */
+    private int combinationCount(List<Die> diceValues, int target, int startTarget){
         int count = 0;
         for (int i = 0; i < diceValues.size(); i++) {
             Die die =diceValues.get(i);
@@ -80,16 +82,15 @@ public class Score implements Parcelable{
                 if (die.getValue() == target) {
                     count++;
                     diceValues = removeReserved(diceValues);
-                    count += sumUp(diceValues, startTarget,startTarget);
+                    count += combinationCount(diceValues, startTarget,startTarget);
                 }else if (die.getValue() < target){
                     target = target - die.getValue();
-                    count += sumUp(diceValues, target,startTarget);
+                    count += combinationCount(diceValues, target,startTarget);
                 }else {
                     die.setReserved(false);
                 }
             }
         }
-
         return count;
     }
 

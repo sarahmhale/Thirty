@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
     private ArrayList<String> scorePerRounds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,6 @@ public class ResultActivity extends AppCompatActivity {
 
         renderTotalScore( intent.getIntExtra("SCORE",0));
         populateScorePerRounds();
-
     }
 
     private void renderTotalScore(int score) {

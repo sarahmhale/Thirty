@@ -7,16 +7,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-class ImageAdapter extends BaseAdapter {
+class DiceAdapter extends BaseAdapter {
     private final Context mContext;
     private final Dice dice;
     private LayoutInflater inflater;
 
-
-    public ImageAdapter(Context c, Dice dice) {
+    public DiceAdapter(Context c, Dice dice) {
         mContext = c;
         this.dice = dice;
-
     }
 
     public int getCount() {
@@ -31,19 +29,26 @@ class ImageAdapter extends BaseAdapter {
         return position;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    /*
+    * Renders a image for each Die in Dice
+    * */
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             inflater =(LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.dice_image,null);
         }
-        ImageView die = convertView.findViewById(R.id.dice_image);
-        die.setImageResource(setImage(dice.getDice().get(position).getValue(),dice.getDice().get(position).isActive() ));
-        return die;
+
+        ImageView dieImage = convertView.findViewById(R.id.dice_image);
+        Die die =dice.getDice().get(position);
+        dieImage.setImageResource(setImage(die.getValue(),die.isActive()));
+
+        return dieImage;
     }
 
-   static public int setImage (int number,boolean active) {
+
+    static public int setImage (int number,boolean active) {
         switch (number) {
             case 1:
                 if(active) return R.drawable.white1;

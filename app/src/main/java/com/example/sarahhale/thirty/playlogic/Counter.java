@@ -67,7 +67,6 @@ public class Counter implements Parcelable{
     public void resetThrow(){
         currentThrows = 0;
         newRound= false;
-
     }
 
     public boolean isGameFinished() {

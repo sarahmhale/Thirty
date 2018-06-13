@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void renderDice (){
 
-        final ImageAdapter imageAdapter  =new ImageAdapter(this,dice);
-        gridView.setAdapter(imageAdapter);
+        final DiceAdapter diceAdapter =new DiceAdapter(this,dice);
+        gridView.setAdapter(diceAdapter);
 
         /*
           Change image to either active or inactive after being clicked.
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     dice.getDice().get(position).setActive(true);
                 }
                 ((ImageView) v).setImageResource(
-                        ImageAdapter.setImage(
+                        DiceAdapter.setImage(
                                 dice.getDice().get(position).getValue(),
                                 dice.getDice().get(position).isActive()
                         ));

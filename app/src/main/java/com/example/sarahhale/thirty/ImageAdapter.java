@@ -1,6 +1,7 @@
 package com.example.sarahhale.thirty;
 import com.example.sarahhale.thirty.playlogic.*;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 class ImageAdapter extends BaseAdapter {
     private final Context mContext;
     private final Dice dice;
+    private LayoutInflater inflater;
 
 
     public ImageAdapter(Context c, Dice dice) {
@@ -22,28 +24,23 @@ class ImageAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return  dice.getDice().get(position);
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(200, 200));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) convertView;
-        }
 
-        imageView.setImageResource(setImage(dice.getDice().get(position).getValue(),dice.getDice().get(position).isActive() ));
-        return imageView;
+        if (convertView == null) {
+            inflater =(LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.dice_image,null);
+        }
+        ImageView die = convertView.findViewById(R.id.dice_image);
+        die.setImageResource(setImage(dice.getDice().get(position).getValue(),dice.getDice().get(position).isActive() ));
+        return die;
     }
 
    static public int setImage (int number,boolean active) {
@@ -77,6 +74,5 @@ class ImageAdapter extends BaseAdapter {
 
         }
     }
-
 
 }

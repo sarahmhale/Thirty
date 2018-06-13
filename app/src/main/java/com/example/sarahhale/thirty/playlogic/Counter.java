@@ -60,9 +60,14 @@ public class Counter implements Parcelable{
             newRound =true;
         }
         else if(currentThrows > totalThrows){
-            newRound= false;
-            currentThrows = 0;
+            resetThrow();
         }
+    }
+
+    public void resetThrow(){
+        currentThrows = 0;
+        newRound= false;
+
     }
 
     public boolean isGameFinished() {

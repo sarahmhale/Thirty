@@ -71,7 +71,6 @@ public class Score implements Parcelable{
 
     private int sumUp(List<Die> diceValues, int target,int startTarget){
         int count = 0;
-
         for (int i = 0; i < diceValues.size(); i++) {
             Die die =diceValues.get(i);
 

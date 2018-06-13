@@ -2,6 +2,7 @@ package com.example.sarahhale.thirty;
 import com.example.sarahhale.thirty.playlogic.*;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private Button rollButton;
     private Button newRoundButton;
-    private ImageAdapter imageAdapter;
     private Counter counter;
     private Score score;
     private Spinner spinner;
@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private final String DICE = "DICE";
     private final String SCORE = "SCORE";
     private final String COUNTER = "COUNTER";
+
+    
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             restoreFromState(savedInstanceState);
         }
 
-        renderScore();
+        renderScoreAlternatives();
         renderDice();
         setThrowText();
         setRoundText();
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         dice = savedInstanceState.getParcelable(DICE);
         score= savedInstanceState.getParcelable(SCORE);
         counter = savedInstanceState.getParcelable(COUNTER);
-        findAllComponents();
+        findAllUIComponents();
     }
 
     @Override
@@ -66,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         counter = new Counter(ROUNDS,THROWS);
         dice = new Dice(6);
         score = new Score();
-        findAllComponents();
+        findAllUIComponents();
     }
 
-    private void findAllComponents(){
+    private void findAllUIComponents(){
         gridView = findViewById(R.id.gridview);
         rollButton = findViewById(R.id.rollButton);
         newRoundButton= findViewById(R.id.newRoundButton);
@@ -78,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void renderDice (){
-        imageAdapter =new ImageAdapter(this,dice);
+
+        final ImageAdapter imageAdapter  =new ImageAdapter(this,dice);
         gridView.setAdapter(imageAdapter);
+
 
         /*
           Change image after image being clicked.
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void renderScore(){
+    private void renderScoreAlternatives(){
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, score.getScoreAlternatives());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,9 +138,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
             result = score.findBestCombinations(dice.getDice(),target);
         }
+
         score.addToTotalScore(result);
         score.setTheScoreForRound(target,result);
-        renderScore();
+        renderScoreAlternatives();
     }
 
     private void startResultActivity(){
@@ -146,25 +151,26 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void newRound(View view){
-        dice.rollAllDice();
         counter.addRound();
         updateScore(spinner.getSelectedItem().toString());
 
         if(counter.isGameFinished()){
-
            startResultActivity();
         }
         else {
-            counter.addThrow();
+            counter.resetThrow();
             setThrowText();
             setRoundText();
             dice.setAllToActive();
-            imageAdapter.notifyDataSetChanged();
+            renderDice();
             rollButton.setVisibility(View.VISIBLE);
             newRoundButton.setVisibility(View.GONE);
         }
+        dice.rollAllDice();
     }
+
 
     public void rollDice(View view){
         counter.addThrow();
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         dice.rollAllDice();
-        imageAdapter.notifyDataSetChanged();
+        renderDice();
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.sarahhale.thirty;
 import com.example.sarahhale.thirty.playlogic.*;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private final String SCORE = "SCORE";
     private final String COUNTER = "COUNTER";
 
-    
+
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             restoreFromState(savedInstanceState);
         }
 
-        renderScoreAlternatives();
+        renderScoreAlternativeSpinner();
         renderDice();
         setThrowText();
         setRoundText();
@@ -84,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
         final ImageAdapter imageAdapter  =new ImageAdapter(this,dice);
         gridView.setAdapter(imageAdapter);
 
-
         /*
-          Change image after image being clicked.
+          Change image to either active or inactive after being clicked.
           */
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
@@ -104,13 +101,12 @@ public class MainActivity extends AppCompatActivity {
                                 dice.getDice().get(position).getValue(),
                                 dice.getDice().get(position).isActive()
                         ));
-
             }
         });
 
     }
 
-    private void renderScoreAlternatives(){
+    private void renderScoreAlternativeSpinner(){
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, score.getScoreAlternatives());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -132,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateScore (String target){
         int result;
+
         if(target.equals("low")){
             result= score.low(dice.getDice());
 
@@ -141,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
         score.addToTotalScore(result);
         score.setTheScoreForRound(target,result);
-        renderScoreAlternatives();
+        renderScoreAlternativeSpinner();
     }
 
     private void startResultActivity(){
@@ -151,7 +148,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    /*
+    * Checks if the game is finished, if not the score is updated, the dice are rolled and the
+    * button is changed from "NEW ROUND" to "ROLL".
+    * */
     public void newRound(View view){
         counter.addRound();
         updateScore(spinner.getSelectedItem().toString());
@@ -171,11 +171,12 @@ public class MainActivity extends AppCompatActivity {
         dice.rollAllDice();
     }
 
-
+    /*
+    * Adds a throw and rolls the dice. If it is new round the button is changed from "ROLL" to
+    * "NEW ROUND" */
     public void rollDice(View view){
         counter.addThrow();
         setThrowText();
-        setRoundText();
 
         if(counter.isItANewRound()){
             rollButton.setVisibility(View.GONE);

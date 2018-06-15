@@ -43,11 +43,17 @@ public class Score implements Parcelable{
         scoreAlternatives = remainingScoreAlternatives.toArray(new String[0]);
     }
 
+    /*
+    * Compares the original dice list to the result list. In the result list the combinations that
+    * are possible are removed. Sums upp the values that are not included in the result list and
+    * returns the sum.
+    * */
     private int getSum(List<Die> diceValues, List<Die> result) {
         int sum = 0;
-        diceValues.removeAll(result);
+        List<Die> dice = new ArrayList(diceValues);
+        dice.removeAll(result);
 
-        for(Die die: diceValues){
+        for(Die die: dice){
             sum += die.getValue();
         }
 
@@ -56,9 +62,14 @@ public class Score implements Parcelable{
 
     public int getBestScore(List<Die> diceValues, String value) {
         removeScoreAlternative(value);
-        int target = Integer.parseInt(value);
-        List<Die> dice = new ArrayList(diceValues);
-        return getSum(diceValues,combinationFinder.findAndRemove(dice,target));
+
+        if (value.equals("low")) {
+            return low(diceValues);
+        } else {
+            int target = Integer.parseInt(value);
+            List<Die> dice = new ArrayList(diceValues);
+            return getSum(diceValues, combinationFinder.findAndRemove(dice, target));
+        }
     }
 
     public int getTotalScore() {

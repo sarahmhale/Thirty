@@ -125,15 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateScore (String target){
-        int result;
-
-        if(target.equals("low")){
-            result= score.low(dice.getDice());
-
-        }else{
-            result = score.getBestScore(dice.getDice(),target);
-        }
-
+        int result = score.getBestScore(dice.getDice(),target);
         score.addToTotalScore(result);
         score.setTheScoreForRound(target,result);
         renderScoreAlternativeSpinner();

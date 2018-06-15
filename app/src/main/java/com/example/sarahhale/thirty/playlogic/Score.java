@@ -5,16 +5,14 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-
 
 public class Score implements Parcelable{
     private String[] SCORE_ALTERNATIVES = new String[]{"low","4","5","6","7","8","9","10","11","12"};
     private int totalScore;
     private String[] scoreAlternatives;
     private final List<String> scoreForEachRound = new ArrayList<>();
+    private CombinationFinder combinationFinder = new CombinationFinder();
 
 
     public Score(){
@@ -45,53 +43,22 @@ public class Score implements Parcelable{
         scoreAlternatives = remainingScoreAlternatives.toArray(new String[0]);
     }
 
-    public int findBestCombinations(List<Die> diceValues, String value) {
+    private int getSum(List<Die> diceValues, List<Die> result) {
+        int sum = 0;
+        diceValues.removeAll(result);
+
+        for(Die die: diceValues){
+            sum += die.getValue();
+        }
+
+        return sum;
+    }
+
+    public int getBestScore(List<Die> diceValues, String value) {
         removeScoreAlternative(value);
         int target = Integer.parseInt(value);
-
-        Collections.sort(diceValues);
-        Collections.reverse(diceValues);
         List<Die> dice = new ArrayList(diceValues);
-
-        int result = combinationCount(dice,target,target);
-
-        return result*target;
-    }
-
-    private List<Die> removeReserved (List<Die> diceValues){
-        for (int i = 0; i< diceValues.size();i++){
-            if(diceValues.get(i).isReserved()){
-                diceValues.remove(i);
-            }
-        }
-        return diceValues;
-    }
-
-    /*
-    * Finds the best number of combinations that sum up to the target value.
-    * Each dice can be used once.
-    * */
-    private int combinationCount(List<Die> diceValues, int target, int startTarget){
-        int count = 0;
-        for (int i = 0; i < diceValues.size(); i++) {
-            Die die =diceValues.get(i);
-
-            if(!die.isReserved()){
-                die.setReserved(true);
-
-                if (die.getValue() == target) {
-                    count++;
-                    diceValues = removeReserved(diceValues);
-                    count += combinationCount(diceValues, startTarget,startTarget);
-                }else if (die.getValue() < target){
-                    target = target - die.getValue();
-                    count += combinationCount(diceValues, target,startTarget);
-                }else {
-                    die.setReserved(false);
-                }
-            }
-        }
-        return count;
+        return getSum(diceValues,combinationFinder.findAndRemove(dice,target));
     }
 
     public int getTotalScore() {
@@ -115,7 +82,6 @@ public class Score implements Parcelable{
                 result += die.getValue();
             }
         }
-
         return result;
     }
 

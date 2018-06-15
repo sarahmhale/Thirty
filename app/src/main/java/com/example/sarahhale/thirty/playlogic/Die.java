@@ -11,11 +11,12 @@ public class Die implements Comparable,Parcelable {
     private int value;
     private final Random random = new Random();
     private boolean reserved = false;
+    private boolean usedForScore = false;
+
 
     public Die(){
         value =random.nextInt(6) + 1;
     }
-
     
     public Die(int value) {
         this.value= value;
@@ -39,6 +40,15 @@ public class Die implements Comparable,Parcelable {
         }
     };
 
+
+    public boolean isUsedForScore() {
+        return usedForScore;
+    }
+
+    public void setUsedForScore(boolean usedForScore) {
+        this.usedForScore = usedForScore;
+    }
+
     public boolean isReserved() {
         return reserved;
     }
@@ -53,14 +63,12 @@ public class Die implements Comparable,Parcelable {
             value = random.nextInt(6) + 1;
             return value;
         }
-
         return value;
     }
 
     public void setActive(boolean active) {
         this.active = active;
     }
-
 
     public int getValue() {
         return value;
@@ -86,5 +94,12 @@ public class Die implements Comparable,Parcelable {
         parcel.writeByte((byte) (active ? 1 : 0));
         parcel.writeInt(value);
         parcel.writeByte((byte) (reserved ? 1 : 0));
+    }
+
+    @Override
+    public String toString() {
+        return "Die{" +
+                "value=" + value +
+                '}';
     }
 }

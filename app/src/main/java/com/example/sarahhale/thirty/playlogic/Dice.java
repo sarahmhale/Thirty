@@ -18,7 +18,6 @@ public class Dice implements Parcelable {
         }
     }
 
-
     protected Dice(Parcel in) {
         dice = in.createTypedArrayList(Die.CREATOR);
     }
@@ -68,6 +67,4 @@ public class Dice implements Parcelable {
             die.setActive(true);
         }
     }
-
-
 }

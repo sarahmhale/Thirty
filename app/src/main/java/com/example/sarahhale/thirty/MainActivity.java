@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                         ));
             }
         });
-
     }
 
     private void renderScoreAlternativeSpinner(){
@@ -111,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, score.getScoreAlternatives());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-
     }
 
     private void setThrowText(){
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             result= score.low(dice.getDice());
 
         }else{
-            result = score.findBestCombinations(dice.getDice(),target);
+            result = score.getBestScore(dice.getDice(),target);
         }
 
         score.addToTotalScore(result);
@@ -158,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(counter.isGameFinished()){
            startResultActivity();
-        }
-        else {
+        }else {
             counter.resetThrow();
             setThrowText();
             setRoundText();
@@ -186,6 +183,5 @@ public class MainActivity extends AppCompatActivity {
         dice.rollAllDice();
         renderDice();
     }
-
 }
 

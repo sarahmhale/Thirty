@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
     private void setThrowText(){
         TextView currentThrowsText = findViewById(R.id.current_throws);
         int currentThrows = counter.getThrows();
-        currentThrowsText.setText("Throws "+ currentThrows+"/"+THROWS);
+        currentThrowsText.setText("Throws "+ (currentThrows+1)+"/"+(THROWS+1));
     }
 
     private void setRoundText(){
         TextView currentRoundsText = findViewById(R.id.current_rounds);
         int currentRounds =counter.getRounds();
-        currentRoundsText.setText("Rounds "+currentRounds+"/"+ROUNDS);
+        currentRoundsText.setText("Rounds "+(currentRounds+1)+"/"+ROUNDS);
     }
 
     private void updateScore (String target){

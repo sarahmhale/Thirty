@@ -34,17 +34,16 @@ class DiceAdapter extends BaseAdapter {
     * */
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
         if (convertView == null) {
             inflater =(LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.dice_image,null);
         }
 
-        ImageView dieImage = convertView.findViewById(R.id.dice_image);
+        ImageView dieImage =(ImageView) convertView.findViewById(R.id.dice_image);
         Die die =dice.getDice().get(position);
         dieImage.setImageResource(setImage(die.getValue(),die.isActive()));
 
-        return dieImage;
+        return convertView;
     }
 
 

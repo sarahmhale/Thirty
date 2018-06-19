@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinner;
 
     private final int ROUNDS = 10;
-    private final int THROWS = 2;
+    private final int THROWS = 3;
     private final String DICE = "DICE";
     private final String SCORE = "SCORE";
     private final String COUNTER = "COUNTER";
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         final DiceAdapter diceAdapter =new DiceAdapter(this,dice);
         gridView.setAdapter(diceAdapter);
+        System.out.println("eee"+ counter.getThrows());
+
 
         /*
           Change image to either active or inactive after being clicked.
@@ -90,20 +92,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
-                if(dice.getDice().get(position).isActive()){
-                    dice.getDice().get(position).setActive(false);
-                }else{
-                    dice.getDice().get(position).setActive(true);
+                if(counter.getThrows() != 0) {
+                    if (dice.getDice().get(position).isActive()) {
+                        dice.getDice().get(position).setActive(false);
+                    } else {
+                        dice.getDice().get(position).setActive(true);
+                    }
+                    ((ImageView) v.findViewById(R.id.dice_image)).setImageResource(
+                            DiceAdapter.setImage(
+                                    dice.getDice().get(position).getValue(),
+                                    dice.getDice().get(position).isActive()
+                            ));
                 }
-                ((ImageView) v).setImageResource(
-                        DiceAdapter.setImage(
-                                dice.getDice().get(position).getValue(),
-                                dice.getDice().get(position).isActive()
-                        ));
             }
         });
     }
+
 
     private void renderScoreAlternativeSpinner(){
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private void setThrowText(){
         TextView currentThrowsText = findViewById(R.id.current_throws);
         int currentThrows = counter.getThrows();
-        currentThrowsText.setText("Throws "+ (currentThrows+1)+"/"+(THROWS+1));
+        currentThrowsText.setText("Throws "+ currentThrows+"/"+(THROWS));
     }
 
     private void setRoundText(){
@@ -158,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             rollButton.setVisibility(View.VISIBLE);
             newRoundButton.setVisibility(View.GONE);
         }
-        dice.rollAllDice();
     }
 
     /*

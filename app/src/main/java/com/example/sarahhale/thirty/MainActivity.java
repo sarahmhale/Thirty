@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ResultActivity.class);
         intent.putExtra(SCORE, score.getTotalScore());
         intent.putStringArrayListExtra("SCORE_PER_ROUNDS",(ArrayList<String>) score.getScoreForRounds());
+        finish();
         startActivity(intent);
     }
 

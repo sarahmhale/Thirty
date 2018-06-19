@@ -43,6 +43,7 @@ public class ResultActivity extends AppCompatActivity {
 
     public void restart(View view){
         Intent intent = new Intent(this,MainActivity.class);
+        finish();
         startActivity(intent);
     }
 }
